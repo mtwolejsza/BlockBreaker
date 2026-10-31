@@ -16,13 +16,13 @@ public class Brick : MonoBehaviour {
     void Awake()
     {
         breakableBricks = 0;
-        Debug.Log(breakableBricks);
+        //Debug.Log(breakableBricks);
     }
 
 	// Use this for initialization
 	void Start () {
         breakableBricks++;
-        Debug.Log(breakableBricks);
+        //Debug.Log(breakableBricks);
         maxHits = hitSprites.Length + 1;
         timesHit = 0;
         lm = GameObject.FindObjectOfType<LevelManager>();

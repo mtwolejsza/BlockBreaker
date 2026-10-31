@@ -4,11 +4,31 @@ using UnityEngine;
 
 public class World : MonoBehaviour {
 
+    public static bool hasStarted = false;
+    public int startLives = 3;
+    public static int lives;
+
     private static float unitHeight;
     private static float unitWidth;
     private static Vector3 dimensions;
 
     private static Vector2 lastInput;
+
+    static World instance = null;
+
+    void Awake()
+    {
+        if (instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        else
+        {
+            instance = this;
+            GameObject.DontDestroyOnLoad(gameObject);
+        }
+    }
 
     // Use this for initialization
     void Start ()
@@ -29,6 +49,7 @@ public class World : MonoBehaviour {
         Vector3 rightTopMost = Camera.main.ViewportToWorldPoint(new Vector3(1f, 1f, 0f));
         dimensions = rightTopMost - leftBottomMost;
         //Debug.Log(dimensions);
+        lives = startLives;
     }
 
     // Update is called once per frame
@@ -47,6 +68,12 @@ public class World : MonoBehaviour {
     public static Vector2 rotateVelocity(Vector2 vel)
     {
         Vector2 input = new Vector2(Input.acceleration.x, Input.acceleration.y);
+        if (!World.hasStarted)
+        {
+            //Debug.Log("ZERO!!!");
+            lastInput = input;
+            return vel;
+        }
         float angleDelta = FindAngle(lastInput) - FindAngle(input);
         /*Debug.Log(angleDelta);
         Debug.Log(Vector2.Angle(Vector2.right, vel));*/
